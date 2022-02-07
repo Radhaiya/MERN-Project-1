@@ -73,7 +73,7 @@ router.post("/signin", async (req, res) => {
             // pass returns boolean
             const pass = await bcrypt.compare(password, userLogin.password);
            
-           
+           //JWToken
             const token= await userLogin.generateAuthToken()
             res.cookie("JWToken",token,{
                 expires:new Date(Date.now()+25892000000),
@@ -82,9 +82,7 @@ router.post("/signin", async (req, res) => {
             })
              
            
-           
-           
-            if(pass){
+           if(pass){
                return res.json({message:"Login Successful"})
                
             }
