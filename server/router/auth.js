@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require('jsonwebtoken')
 const router = express.Router();
 require("../database/connection");
 const User = require("../model/UserSchema");
@@ -54,6 +55,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/signin", async (req, res) => {
     try {
+        let token
         const { email, password } = req.body;
 
         if (!email || !password) {
@@ -70,7 +72,18 @@ router.post("/signin", async (req, res) => {
             //compare password
             // pass returns boolean
             const pass = await bcrypt.compare(password, userLogin.password);
-            
+           
+           
+            const token= await userLogin.generateAuthToken()
+            res.cookie("JWToken",token,{
+                expires:new Date(Date.now()+25892000000),
+                httpOnly:true,
+               
+            })
+             
+           
+           
+           
             if(pass){
                return res.json({message:"Login Successful"})
                
