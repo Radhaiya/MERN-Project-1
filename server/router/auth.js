@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const router = express.Router();
 require("../database/connection");
 const User = require("../model/UserSchema");
-const bcrypt=require("bcryptjs")
+const bcrypt = require("bcryptjs")
 
 //Routing
 
@@ -26,7 +26,7 @@ router.post("/register", async (req, res) => {
         const userExist = await User.findOne({ email: email });
         if (userExist) {
             return res.status(422).json({ error: "Email already Exist" });
-            
+
         }
 
         //Register New User
@@ -43,10 +43,10 @@ router.post("/register", async (req, res) => {
             //Saved in Mongo
             await user.save();
             res.status(201).json({ message: "Registered Succesfully" });
-            
+
         }
     } catch (err) {
-        //Error Catch
+        //Error Catch 
         console.log(err);
     }
 });
@@ -61,42 +61,42 @@ router.post("/signin", async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ error: "Enter Credentials" });
         }
-         
-        
+
+
 
         // This(userLogin) gives Whole Document if User is found in database
         const userLogin = await User.findOne({ email: email });
-        
+
         //User Found
-        if(userLogin){
+        if (userLogin) {
             //compare password
             // pass returns boolean
             const pass = await bcrypt.compare(password, userLogin.password);
-           
-           //JWToken
-            const token= await userLogin.generateAuthToken()
-            res.cookie("JWToken",token,{
-                expires:new Date(Date.now()+25892000000),
-                httpOnly:true,
-               
+
+            //JWToken
+            const token = await userLogin.generateAuthToken()
+            res.cookie("JWToken", token, {
+                expires: new Date(Date.now() + 25892000000),
+                httpOnly: true,
+
             })
-             
-           
-           if(pass){
-               return res.json({message:"Login Successful"})
-               
+
+
+            if (pass) {
+                return res.json({ message: "Login Successful" })
+
             }
-            else{
-                return res.status(400).json({ error: "Invalid Credentials" })  
-                
+            else {
+                return res.status(400).json({ error: "Invalid Credentials" })
+
             }
 
-        }else{
-            res.status(400).json({error:"Invalid Credentials"})
+        } else {
+            res.status(400).json({ error: "Invalid Credentials" })
         }
 
-        
-       
+
+
     } catch (err) {
         console.log(err);
     }

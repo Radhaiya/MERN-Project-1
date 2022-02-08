@@ -29,7 +29,7 @@ const middleware = (req, res, next) => {
 
 
 
-//Routing
+////////////Routing////////
 app.get('/register', (req, res) => {
     res.send("register");
 
@@ -40,6 +40,7 @@ app.get("/signin", (req, res) => {
 
 
 })
+
 
 
 //Port
