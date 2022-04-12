@@ -1,0 +1,6 @@
+//Kill Host
+run command
+1.netstat -ano | findstr :PortName
+2.taskkill /PID "PID" /F
+
+//PID=Displayed after running first command

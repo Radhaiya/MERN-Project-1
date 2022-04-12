@@ -16,8 +16,10 @@ router.get("/", (req, res) => {
 ////////Registration////////////////
 router.post("/register", async (req, res) => {
     try {
-        //All fields mandatory check
+       
         const { name, email, phone, work, password, cpassword } = req.body;
+
+         //All fields mandatory check
         if (!name || !email || !phone || !work || !password || !cpassword) {
             return res.status(422).json({ error: "All fields Mandatory" });
         }
@@ -42,6 +44,8 @@ router.post("/register", async (req, res) => {
 
             //Saved in Mongo
             await user.save();
+            
+            
             res.status(201).json({ message: "Registered Succesfully" });
 
         }
@@ -103,3 +107,6 @@ router.post("/signin", async (req, res) => {
 });
 
 module.exports = router;
+
+
+
